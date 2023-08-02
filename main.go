@@ -8,20 +8,6 @@ import (
 )
 
 func main() {
-
-	lvl, ok := os.LookupEnv("LOG_LEVEL")
-	// LOG_LEVEL not set, let's default to debug
-	if !ok {
-		lvl = "debug"
-	}
-	// parse string, this is built-in feature of logrus
-	ll, err := log.ParseLevel(lvl)
-	if err != nil {
-		ll = log.DebugLevel
-	}
-	// set global log level
-	log.SetLevel(ll)
-
 	cards := newDeck()
 
 	log.Info("Shuffling the deck...")
@@ -38,6 +24,21 @@ func main() {
 	log.Info("Reading from file...")
 	readFromFile("test.txt")
 	hand.print()
+}
+
+func init() {
+	lvl, ok := os.LookupEnv("LOG_LEVEL")
+	// LOG_LEVEL not set, let's default to debug
+	if !ok {
+		lvl = "debug"
+	}
+	// parse string, this is built-in feature of logrus
+	ll, err := log.ParseLevel(lvl)
+	if err != nil {
+		ll = log.DebugLevel
+	}
+	// set global log level
+	log.SetLevel(ll)
 }
 
 // Create a new deck for all 52 cards.
